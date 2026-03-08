@@ -1,4 +1,4 @@
-import '../styles/bento.css'
+import '../styles/Bento.css'
 
 const cardData = [
   {
