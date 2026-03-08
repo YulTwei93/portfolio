@@ -1,4 +1,4 @@
-name: Deploy to All-Inkl
+name: Deploy to Hosting Server
 
 on:
   push:
@@ -29,11 +29,17 @@ jobs:
           VITE_EMAILJS_TEMPLATE_ID: ${{ secrets.VITE_EMAILJS_TEMPLATE_ID }}
           VITE_EMAILJS_PUBLIC_KEY: ${{ secrets.VITE_EMAILJS_PUBLIC_KEY }}
 
-      - name: Via rsync deployen
-        uses: docker://instrumentisto/rsync-ssh:alpine
+      - name: SSH-Key einrichten
+        uses: webfactory/ssh-agent@v0.9.0
         with:
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
-          port: ${{ secrets.SSH_PORT }}
-          src: dist/
-          dest: ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:${{ secrets.SSH_TARGET_DIR }}
-          opts: --archive --verbose --compress --delete
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+      - name: Server zu Known Hosts hinzufügen
+        run: ssh-keyscan -p ${{ secrets.SSH_PORT }} ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
+
+      - name: Via rsync deployen
+        run: |
+          rsync --archive --verbose --compress --delete \
+            -e "ssh -p ${{ secrets.SSH_PORT }}" \
+            dist/ \
+            ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:${{ secrets.SSH_TARGET_DIR }}
