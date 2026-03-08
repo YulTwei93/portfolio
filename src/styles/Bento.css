@@ -1,0 +1,138 @@
+/* ============================================================
+BENTO.CSS – MagicBento Grid Styles
+Importiert in: MagicBento.jsx
+=========================================================== */
+
+.bento-section {
+  position: relative;
+  user-select: none;
+}
+
+/* Grid Layout */
+.card-grid {
+  display: grid;
+  gap: 0.75rem;
+  width: 100%;
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 600px) {
+  .card-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .card-grid {
+    grid-template-columns: repeat(4, 1fr);
+    grid-auto-rows: minmax(180px, auto);
+  }
+
+  .magic-bento-card:nth-child(1) { grid-column: span 4; }
+  .magic-bento-card:nth-child(2),
+  .magic-bento-card:nth-child(3) { grid-column: span 2; }
+  .magic-bento-card:nth-child(4) { grid-column: span 2; }
+  .magic-bento-card:nth-child(5),
+  .magic-bento-card:nth-child(6) { grid-column: span 1; }
+}
+
+/* Card Basis */
+.magic-bento-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  position: relative;
+  min-height: 160px;
+  width: 100%;
+  padding: clamp(1rem, 2vw, 1.5rem);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border: 1px solid transparent;
+  background-clip: padding-box;
+}
+
+/* Gradient Border Effekt */
+.magic-bento-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: var(--radius-md);
+  padding: 1px;
+  background: var(--glass-border);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  pointer-events: none;
+}
+
+/* Erste Card – Statement */
+.magic-bento-card:nth-child(1) {
+  min-height: 140px;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+.magic-bento-card:nth-child(1) .magic-bento-card__content { width: 100%; }
+
+.magic-bento-card:nth-child(1) .magic-bento-card__description {
+  font-size: clamp(1rem, 1.5vw, 1.15rem);
+  line-height: 1.7;
+  color: var(--color-text-primary);
+  width: 100%;
+}
+
+/* Card Header */
+.magic-bento-card__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 1rem;
+}
+
+/* Label */
+.magic-bento-card__label {
+  font-family: 'Syne', sans-serif;
+  font-size: 0.7rem;
+  color: var(--color-cyan);
+  letter-spacing: 0.05em;
+  min-height: 1em;
+}
+
+/* Nummer */
+.magic-bento-card__number {
+  font-family: 'Syne', sans-serif;
+  font-size: 0.7rem;
+  color: rgba(255, 255, 255, 0.15);
+  font-weight: 700;
+  letter-spacing: 0.1em;
+}
+
+/* Card Content */
+.magic-bento-card__content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+/* Card Titel */
+.magic-bento-card__title {
+  font-family: 'Syne', sans-serif;
+  font-weight: 600;
+  font-size: clamp(0.9rem, 1.5vw, 1rem);
+  color: var(--color-text-primary);
+  margin: 0 0 0.4rem 0;
+  line-height: 1.3;
+}
+
+/* Card Beschreibung */
+.magic-bento-card__description {
+  font-family: 'Inter', sans-serif;
+  font-size: clamp(0.8rem, 1.2vw, 0.875rem);
+  line-height: 1.7;
+  color: #a0a0bb;
+  margin: 0;
+}

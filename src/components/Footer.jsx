@@ -1,0 +1,121 @@
+import { useState } from 'react'
+import { FiGithub, FiLinkedin } from 'react-icons/fi'
+import LegalModal from './LegalModal'
+
+const NAV_ITEMS = [
+  { label: 'Start',    href: '#hero' },
+  { label: 'Projekte', href: '#projekte' },
+  { label: 'Über',     href: '#ueber-mich' },
+  { label: 'Kontakt',  href: '#kontakt' },
+]
+
+export default function Footer() {
+  const [modal, setModal] = useState(null)
+
+  return (
+    <>
+      <LegalModal
+        isOpen={modal !== null}
+        onClose={() => setModal(null)}
+        type={modal}
+      />
+
+      <footer className="relative mt-0">
+        {/* Trennlinie oben */}
+        <div style={{ borderTop: '1px solid rgba(255,255,255,0.06)' }} />
+
+        <div className="w-full max-w-6xl px-6 py-12 mx-auto">
+          {/* Dreispaltiges Layout */}
+          <div className="grid grid-cols-1 gap-10 mb-10 md:grid-cols-3">
+            {/* ── Spalte 1: Name + Techstack ── */}
+            <div className="flex flex-col gap-4">
+              <span className="text-lg font-bold font-display text-text-primary">
+                Yuliya Tweitmann
+              </span>
+              <p className="text-xs leading-relaxed font-body text-text-secondary">
+                Mediengestalterin Digital & Print in Ausbildung.
+                Schwerpunkt Frontend-Web.
+              </p>
+              <p className="text-xs font-body text-text-secondary">
+                Gebaut mit React, TailwindCSS & Framer Motion
+              </p>
+            </div>
+
+            {/* ── Spalte 2: Nav-Links ── */}
+            <div className="flex flex-col gap-3">
+              <p className="mb-1 text-xs tracking-widest uppercase font-body text-text-secondary">
+                Navigation
+              </p>
+              {NAV_ITEMS.map(item => (
+                <a
+                  key={item.label}
+                  href={item.href}
+                  className="text-sm transition-colors font-body text-text-secondary hover:text-cyan w-fit"
+                >
+                  {item.label}
+                </a>
+              ))}
+            </div>
+
+            {/* ── Spalte 3: Socials + Rechtliches ── */}
+            <div className="flex flex-col gap-3">
+              <p className="mb-1 text-xs tracking-widest uppercase font-body text-text-secondary">
+                Soziale Netzwerke
+              </p>
+              <a
+                href="https://github.com/YulTwei93"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-2 text-sm transition-colors font-body text-text-secondary hover:text-cyan w-fit"
+              >
+                <FiGithub size={14} />
+                GitHub
+              </a>
+              <a
+                href="https://linkedin.com/in/yuliya-tweitmann-603a80327"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-2 text-sm transition-colors font-body text-text-secondary hover:text-cyan w-fit"
+              >
+                <FiLinkedin size={14} />
+                LinkedIn
+              </a>
+
+              {/* Rechtliches */}
+              <div className="flex flex-col gap-2 mt-4">
+                <p className="mb-1 text-xs tracking-widest uppercase font-body text-text-secondary">
+                  Rechtliches
+                </p>
+                <button
+                  onClick={() => setModal('impressum')}
+                  className="p-0 text-sm text-left transition-colors bg-transparent border-none cursor-pointer font-body text-text-secondary hover:text-cyan w-fit"
+                >
+                  Impressum
+                </button>
+                <button
+                  onClick={() => setModal('datenschutz')}
+                  className="p-0 text-sm text-left transition-colors bg-transparent border-none cursor-pointer font-body text-text-secondary hover:text-cyan w-fit"
+                >
+                  Datenschutz
+                </button>
+              </div>
+            </div>
+          </div>
+
+          {/* Copyright */}
+          <div
+            className="flex flex-col items-center justify-between gap-2 pt-6 md:flex-row"
+            style={{ borderTop: '1px solid rgba(255,255,255,0.06)' }}
+          >
+            <p className="text-xs font-body text-text-secondary">
+              © {new Date().getFullYear()} Yuliya Tweitmann – Alle Rechte vorbehalten
+            </p>
+            <p className="text-xs font-body text-text-secondary">
+              Bremen, Deutschland
+            </p>
+          </div>
+        </div>
+      </footer>
+    </>
+  )
+}
