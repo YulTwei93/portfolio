@@ -21,13 +21,11 @@ export default function Footer() {
       />
 
       <footer className="relative mt-0">
-        {/* Trennlinie oben */}
         <div style={{ borderTop: '1px solid rgba(255,255,255,0.06)' }} />
 
         <div className="w-full max-w-6xl px-6 py-12 mx-auto">
-          {/* Dreispaltiges Layout */}
           <div className="grid grid-cols-1 gap-10 mb-10 md:grid-cols-3">
-            {/* ── Spalte 1: Name + Techstack ── */}
+
             <div className="flex flex-col gap-4">
               <span className="text-lg font-bold font-display text-text-primary">
                 Yuliya Tweitmann
@@ -41,7 +39,6 @@ export default function Footer() {
               </p>
             </div>
 
-            {/* ── Spalte 2: Nav-Links ── */}
             <div className="flex flex-col gap-3">
               <p className="mb-1 text-xs tracking-widest uppercase font-body text-text-secondary">
                 Navigation
@@ -57,7 +54,6 @@ export default function Footer() {
               ))}
             </div>
 
-            {/* ── Spalte 3: Socials + Rechtliches ── */}
             <div className="flex flex-col gap-3">
               <p className="mb-1 text-xs tracking-widest uppercase font-body text-text-secondary">
                 Soziale Netzwerke
@@ -81,7 +77,6 @@ export default function Footer() {
                 LinkedIn
               </a>
 
-              {/* Rechtliches */}
               <div className="flex flex-col gap-2 mt-4">
                 <p className="mb-1 text-xs tracking-widest uppercase font-body text-text-secondary">
                   Rechtliches
@@ -100,11 +95,11 @@ export default function Footer() {
                 </button>
               </div>
             </div>
+
           </div>
 
-          {/* Copyright */}
           <div
-            className="flex flex-col items-center justify-between gap-2 pt-6 md:flex-row"
+            className="flex flex-col items-center justify-between gap-2 pt-6 lg:flex-row"
             style={{ borderTop: '1px solid rgba(255,255,255,0.06)' }}
           >
             <p className="text-xs font-body text-text-secondary">

@@ -9,14 +9,13 @@ import {
   SiAdobeillustrator, SiAdobeindesign,
 } from 'react-icons/si'
 
-const TITLES = ['Frontend Entwicklerin', 'Mediengestalterin', 'In Ausbildung']
+const TITLES = ['Frontend Developerin', 'Mediengestalterin', 'Design & Code']
 
 export default function Hero() {
   const [titleIndex, setTitleIndex] = useState(0)
   const [displayed,  setDisplayed]  = useState('')
   const [deleting,   setDeleting]   = useState(false)
 
-  // Tippmaschinen-Logik
   useEffect(() => {
     const current = TITLES[titleIndex]
 
@@ -42,12 +41,9 @@ export default function Hero() {
     <section id="hero" className="relative flex items-center min-h-screen overflow-hidden">
       <div className="relative z-10 w-full max-w-6xl px-6 py-24 mx-auto">
 
-        {/* Zweispaltiges Layout */}
-        <div className="flex flex-col-reverse items-center gap-12 md:flex-row">
+        <div className="flex flex-col-reverse items-center gap-12 lg:flex-row">
 
-          {/* ── LINKE SPALTE: Text ── */}
           <div className="flex-1 text-left">
-
             <motion.p
               className="mb-4 text-sm tracking-widest uppercase text-text-secondary font-body"
               initial={{ opacity: 0, y: 20 }}
@@ -58,10 +54,10 @@ export default function Hero() {
             </motion.p>
 
             <motion.div
+              className="mb-4"
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.2 }}
-              className="mb-4"
             >
               <img src={Logo} alt="Yuliya Tweitmann" className="w-auto h-16 md:h-20" />
             </motion.div>
@@ -87,17 +83,11 @@ export default function Hero() {
             </motion.p>
 
             <motion.div
-              className="flex flex-col justify-center gap-4 sm:flex-row md:justify-start"
+              className="flex flex-col justify-center gap-4 sm:flex-row lg:justify-start"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.8 }}
             >
-              {/*
-                btn-solid + btn-outline → CSS-Klassen aus index.css
-                Desktop: hover-Farbe wechselt
-                Mobile:  :active → scale(0.97) + opacity
-                whileTap → Framer Motion Tap-Feedback zusätzlich
-              */}
               <motion.a
                 href="#projekte"
                 className="px-8 py-3 font-medium text-center btn-solid rounded-xl font-body"
@@ -107,7 +97,6 @@ export default function Hero() {
               >
                 Projekte ansehen
               </motion.a>
-
               <motion.a
                 href="#kontakt"
                 className="px-8 py-3 font-medium text-center border btn-outline rounded-xl font-body border-cyan text-cyan"
@@ -119,7 +108,6 @@ export default function Hero() {
             </motion.div>
           </div>
 
-          {/* ── RECHTE SPALTE: Profilbild ── */}
           <motion.div
             className="flex-shrink-0"
             initial={{ opacity: 0, scale: 0.9 }}
@@ -128,7 +116,7 @@ export default function Hero() {
           >
             <div className="relative flex items-center justify-center">
               <div className="absolute inset-0 rounded-full opacity-25 pointer-events-none -scale-125 bg-gradient-brand blur-3xl" />
-              <div className="relative w-72 h-72 md:w-80 md:h-80 lg:w-[30rem] lg:h-[30rem]">
+              <div className="relative w-72 h-72 lg:w-80 lg:h-80 xl:w-[30rem] xl:h-[30rem]">
                 <div className="absolute inset-0 rounded-full opacity-50 bg-gradient-to-br from-cyan/20 to-purple/20 blur-xl" />
                 <img
                   src={profileImg}
@@ -141,7 +129,6 @@ export default function Hero() {
 
         </div>
 
-        {/* ── Logo Loop ── */}
         <motion.div
           className="mt-16 overflow-hidden"
           initial={{ opacity: 0 }}

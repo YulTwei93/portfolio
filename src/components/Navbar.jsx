@@ -15,7 +15,6 @@ export default function Navbar() {
   return (
     <header className="fixed top-0 left-0 z-50 flex justify-center w-full px-6 pt-4">
 
-      {/* Glassmorphism Navbar */}
       <nav
         className="flex items-center justify-between w-full max-w-6xl px-6 py-3 rounded-lg"
         style={{
@@ -27,17 +26,13 @@ export default function Navbar() {
         }}
         aria-label="Hauptnavigation"
       >
-        {/* Logo */}
-        {/* nav-link Klasse → hover:cyan auf Desktop, :active Feedback auf Mobile (index.css) */}
         <a href="#hero" className="text-lg font-bold text-white transition-colors nav-link font-display">
           YT
         </a>
 
-        {/* Desktop Links */}
-        <ul className="items-center hidden gap-8 md:flex" role="list">
+        <ul className="items-center hidden gap-8 lg:flex" role="list">
           {NAV_ITEMS.map(item => (
             <li key={item.label}>
-              {/* nav-link → Hover Desktop / :active Mobile */}
               <a
                 href={item.href}
                 className="text-sm transition-colors duration-200 nav-link font-body text-text-secondary"
@@ -48,8 +43,7 @@ export default function Navbar() {
           ))}
         </ul>
 
-        {/* Social Icons – Desktop */}
-        <div className="items-center hidden gap-3 md:flex">
+        <div className="items-center hidden gap-3 lg:flex">
           <a
             href="https://github.com/YulTwei93"
             target="_blank"
@@ -70,9 +64,8 @@ export default function Navbar() {
           </a>
         </div>
 
-        {/* Mobile Burger Button */}
         <button
-          className="md:hidden flex flex-col gap-1.5 p-2"
+          className="lg:hidden flex flex-col gap-1.5 p-2"
           onClick={() => setMenuOpen(!menuOpen)}
           aria-label={menuOpen ? 'Menü schließen' : 'Menü öffnen'}
           aria-expanded={menuOpen}
@@ -83,11 +76,10 @@ export default function Navbar() {
         </button>
       </nav>
 
-      {/* Mobile Dropdown */}
       <AnimatePresence>
         {menuOpen && (
           <motion.div
-            className="absolute p-6 rounded-lg top-20 left-6 right-6 md:hidden"
+            className="absolute p-6 rounded-lg top-20 left-6 right-6 lg:hidden"
             style={{
               background:     'rgba(17, 17, 24, 0.95)',
               backdropFilter: 'var(--glass-blur)',
@@ -98,7 +90,6 @@ export default function Navbar() {
             exit={{ opacity: 0, y: -10 }}
             transition={{ duration: 0.2 }}
           >
-            {/* Nav Links – auf Mobile größer für bessere Touch-Targets */}
             <ul className="flex flex-col gap-2 mb-6" role="list">
               {NAV_ITEMS.map(item => (
                 <li key={item.label}>
@@ -113,10 +104,8 @@ export default function Navbar() {
               ))}
             </ul>
 
-            {/* Trennlinie */}
             <div className="h-px mb-6" style={{ background: 'var(--glass-border)' }} />
 
-            {/* Social Icons – Mobile mit Text */}
             <div className="flex items-center gap-4">
               <a
                 href="https://github.com/YulTwei93"

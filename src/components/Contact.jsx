@@ -27,10 +27,15 @@ const CONTACT_ITEMS = [
   },
 ]
 
+const inputStyle = {
+  background: 'var(--glass-bg)',
+  border: '1px solid var(--glass-border)',
+}
+
 export default function Contact() {
   const formRef = useRef(null)
   const [formData, setFormData] = useState({ name: '', email: '', message: '' })
-  const [status, setStatus] = useState('idle')
+  const [status, setStatus]     = useState('idle')
 
   const handleChange = (e) => {
     setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }))
@@ -49,17 +54,10 @@ export default function Contact() {
     }
   }
 
-  /* Wiederverwendbare Input-Styles */
-  const inputStyle = {
-    background: 'var(--glass-bg)',
-    border: '1px solid var(--glass-border)',
-  }
-
   return (
     <section id="kontakt" className="relative py-24">
       <div className="w-full max-w-6xl px-6 mx-auto">
 
-        {/* Section Header */}
         <motion.div
           className="mb-16"
           initial={{ opacity: 0, y: 20 }}
@@ -75,17 +73,18 @@ export default function Contact() {
           </h2>
         </motion.div>
 
-        {/* Split Layout */}
-        <div className="grid items-start grid-cols-1 gap-12 md:grid-cols-2">
+        <div className="grid items-start grid-cols-1 gap-12 lg:grid-cols-2">
 
-          {/* Links: Intro + Kontaktdaten */}
           <motion.div
             initial={{ opacity: 0, x: -30 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.1 }}
           >
-            <p className="mb-10 text-base leading-relaxed font-body text-text-secondary" style={{ fontSize: 'clamp(0.95rem, 1.5vw, 1.1rem)' }}>
+            <p
+              className="mb-10 text-base leading-relaxed font-body text-text-secondary"
+              style={{ fontSize: 'clamp(0.95rem, 1.5vw, 1.1rem)' }}
+            >
               Du möchtest mehr über meine Arbeit erfahren oder hast eine
               Möglichkeit für ein Praktikum im Bereich Frontend oder Design?
               Schreib mir, ich freue mich über deine Nachricht!
@@ -108,7 +107,6 @@ export default function Contact() {
             </div>
           </motion.div>
 
-          {/* Rechts: Formular */}
           <motion.div
             initial={{ opacity: 0, x: 30 }}
             whileInView={{ opacity: 1, x: 0 }}
@@ -117,12 +115,12 @@ export default function Contact() {
           >
             <form ref={formRef} onSubmit={handleSubmit} className="flex flex-col gap-4" noValidate>
 
-              {/* Name */}
               <div className="flex flex-col gap-2">
                 <label htmlFor="name" className="text-xs tracking-widest uppercase font-body text-text-secondary">
                   Name
                 </label>
-                <input autoComplete="name"
+                <input
+                  autoComplete="name"
                   id="name"
                   type="text"
                   name="name"
@@ -133,16 +131,16 @@ export default function Contact() {
                   className="w-full px-4 py-3 text-sm transition-all rounded-md outline-none font-body text-text-primary placeholder-text-secondary"
                   style={inputStyle}
                   onFocus={e => e.target.style.borderColor = 'rgba(0,212,255,0.5)'}
-                  onBlur={e => e.target.style.borderColor = 'var(--glass-border)'}
+                  onBlur={e  => e.target.style.borderColor = 'var(--glass-border)'}
                 />
               </div>
 
-              {/* E-Mail */}
               <div className="flex flex-col gap-2">
                 <label htmlFor="email" className="text-xs tracking-widest uppercase font-body text-text-secondary">
                   E-Mail
                 </label>
-                <input autoComplete="email"
+                <input
+                  autoComplete="email"
                   id="email"
                   type="email"
                   name="email"
@@ -153,16 +151,16 @@ export default function Contact() {
                   className="w-full px-4 py-3 text-sm transition-all rounded-md outline-none font-body text-text-primary placeholder-text-secondary"
                   style={inputStyle}
                   onFocus={e => e.target.style.borderColor = 'rgba(0,212,255,0.5)'}
-                  onBlur={e => e.target.style.borderColor = 'var(--glass-border)'}
+                  onBlur={e  => e.target.style.borderColor = 'var(--glass-border)'}
                 />
               </div>
 
-              {/* Nachricht */}
               <div className="flex flex-col gap-2">
                 <label htmlFor="message" className="text-xs tracking-widest uppercase font-body text-text-secondary">
                   Nachricht
                 </label>
-                <textarea autoComplete="off"
+                <textarea
+                  autoComplete="off"
                   id="message"
                   name="message"
                   value={formData.message}
@@ -173,26 +171,24 @@ export default function Contact() {
                   className="w-full px-4 py-3 text-sm transition-all rounded-md outline-none resize-none font-body text-text-primary placeholder-text-secondary"
                   style={inputStyle}
                   onFocus={e => e.target.style.borderColor = 'rgba(0,212,255,0.5)'}
-                  onBlur={e => e.target.style.borderColor = 'var(--glass-border)'}
+                  onBlur={e  => e.target.style.borderColor = 'var(--glass-border)'}
                 />
               </div>
 
-              {/* Submit */}
               <button
                 type="submit"
                 disabled={status === 'sending'}
                 className="flex items-center justify-center gap-2 px-8 py-3 font-medium transition-opacity rounded-md font-body"
                 style={{
                   background: 'var(--color-cyan)',
-                  color: 'var(--color-dark)',
-                  opacity: status === 'sending' ? 0.7 : 1,
+                  color:      'var(--color-dark)',
+                  opacity:    status === 'sending' ? 0.7 : 1,
                 }}
               >
                 <FiSend size={14} />
                 {status === 'sending' ? 'Wird gesendet...' : 'Nachricht senden'}
               </button>
 
-              {/* Status */}
               {status === 'success' && (
                 <p className="text-sm text-center font-body" style={{ color: 'var(--color-cyan)' }}>
                   ✓ Nachricht erfolgreich gesendet!
@@ -203,6 +199,7 @@ export default function Contact() {
                   ✗ Etwas ist schiefgelaufen. Bitte versuche es erneut.
                 </p>
               )}
+
             </form>
           </motion.div>
 

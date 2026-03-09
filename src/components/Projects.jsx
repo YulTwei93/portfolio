@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import {
   FiMonitor, FiLayout, FiPrinter,
@@ -246,6 +246,19 @@ Weil mir eine Version nicht gereicht hat, entstanden zwei gegensätzliche Interp
   },
 ]
 
+
+// ── Resize Hook ───────────────────────────────────────────────
+
+function useIsWide(breakpoint = 1024) {
+  const [isWide, setIsWide] = useState(window.innerWidth > breakpoint)
+  useEffect(() => {
+    const handler = () => setIsWide(window.innerWidth > breakpoint)
+    window.addEventListener('resize', handler)
+    return () => window.removeEventListener('resize', handler)
+  }, [breakpoint])
+  return isWide
+}
+
 // ── Video-Player ──────────────────────────────────────────────
 
 function PanelVideo({ src, title }) {
@@ -263,16 +276,53 @@ function PanelVideo({ src, title }) {
   )
 }
 
+// ── Zoom-Overlay ──────────────────────────────────────────────
+
+function ZoomOverlay({ src, alt, onClose }) {
+  return (
+    <motion.div
+      className="fixed inset-0 z-[200] flex items-center justify-center"
+      style={{ background: 'rgba(0,0,0,0.95)', backdropFilter: 'blur(16px)' }}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      onClick={onClose}
+    >
+      <motion.img
+        src={src}
+        alt={alt}
+        className="rounded-sm"
+        style={{ maxWidth: '95vw', maxHeight: '95vh', objectFit: 'contain' }}
+        initial={{ scale: 0.85, opacity: 0 }}
+        animate={{ scale: 1, opacity: 1 }}
+        exit={{ scale: 0.85, opacity: 0 }}
+        transition={{ duration: 0.25 }}
+        onClick={e => e.stopPropagation()}
+      />
+      <button
+        onClick={onClose}
+        aria-label="Zoom schließen"
+        className="absolute top-4 right-4 flex items-center justify-center w-10 h-10 rounded-sm"
+        style={{ background: 'rgba(255,255,255,0.1)', border: '1px solid rgba(255,255,255,0.2)', color: 'white' }}
+      >
+        <FiX size={18} />
+      </button>
+    </motion.div>
+  )
+}
+
 // ── Bildergalerie ─────────────────────────────────────────────
 
 function PanelGallery({ images, title }) {
   const [current, setCurrent] = useState(0)
-  const valid = images.filter(item => item?.src)
+  const [zoomed,  setZoomed]  = useState(false)
+  const isWide = useIsWide()
+  const valid  = images.filter(item => item?.src)
 
   if (valid.length === 0) {
     return (
       <div className="flex items-center justify-center w-full h-full">
-        <p className="text-xs tracking-widest uppercase text-white/20 font-body">
+        <p className="text-xs tracking-widest uppercase font-body" style={{ color: 'rgba(255,255,255,0.2)' }}>
           Mockup folgt
         </p>
       </div>
@@ -280,89 +330,153 @@ function PanelGallery({ images, title }) {
   }
 
   return (
-    <div className="relative w-full h-full">
-
-      <AnimatePresence mode="wait">
-        <motion.img
-          key={current}
-          src={valid[current].src}
-          alt={valid[current].caption || `${title} – Bild ${current + 1}`}
-          className="object-contain w-full h-full"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: 0.3 }}
-        />
+    <>
+      <AnimatePresence>
+        {zoomed && (
+          <ZoomOverlay
+            src={valid[current].src}
+            alt={valid[current].caption || `${title} – Bild ${current + 1}`}
+            onClose={() => setZoomed(false)}
+          />
+        )}
       </AnimatePresence>
 
-      {/* Caption */}
-      {valid[current].caption && (
+      <div className="relative w-full h-full">
+
+        <AnimatePresence mode="wait">
+          <motion.img
+            key={current}
+            src={valid[current].src}
+            alt={valid[current].caption || `${title} – Bild ${current + 1}`}
+            className="object-contain w-full h-full"
+            style={{ cursor: 'zoom-in' }}
+            onClick={() => setZoomed(true)}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
+          />
+        </AnimatePresence>
+
         <div
-          className="absolute bottom-0 left-0 right-0 px-5 py-4 pointer-events-none"
-          style={{ background: 'linear-gradient(transparent, rgba(0,0,0,0.75))' }}
+          className="absolute top-3 left-3 px-2 py-1 text-xs rounded-sm font-body"
+          style={{ background: 'rgba(0,0,0,0.55)', backdropFilter: 'blur(8px)', color: 'rgba(255,255,255,0.45)', pointerEvents: 'none' }}
         >
-          <p className="text-sm font-medium font-body text-white/90">
-            {valid[current].caption}
-          </p>
+          Klicken zum Vergrößern
         </div>
-      )}
 
-      {valid.length > 1 && (
-        <>
-          <button
-            onClick={() => setCurrent(c => (c - 1 + valid.length) % valid.length)}
-            aria-label="Vorheriges Bild"
-            className="absolute flex items-center justify-center w-10 h-10 transition-all -translate-y-1/2 rounded-sm left-4 top-1/2 hover:border-cyan"
-            style={{ background: 'rgba(0,0,0,0.5)', border: '1px solid var(--glass-border)', backdropFilter: 'blur(8px)' }}
+        {valid.length > 1 && (
+          <div
+            className="absolute top-3 right-3 px-2 py-1 text-xs rounded-sm font-body"
+            style={{ background: 'rgba(0,0,0,0.55)', backdropFilter: 'blur(8px)', color: 'rgba(255,255,255,0.6)' }}
           >
-            <FiChevronLeft size={18} color="var(--color-text-primary)" />
-          </button>
-          <button
-            onClick={() => setCurrent(c => (c + 1) % valid.length)}
-            aria-label="Nächstes Bild"
-            className="absolute flex items-center justify-center w-10 h-10 transition-all -translate-y-1/2 rounded-sm right-4 top-1/2 hover:border-cyan"
-            style={{ background: 'rgba(0,0,0,0.5)', border: '1px solid var(--glass-border)', backdropFilter: 'blur(8px)' }}
-          >
-            <FiChevronRight size={18} color="var(--color-text-primary)" />
-          </button>
-        </>
-      )}
+            {current + 1} / {valid.length}
+          </div>
+        )}
 
-      {/* Dots */}
-      {valid.length > 1 && (
-        <div className="absolute flex gap-2 -translate-x-1/2 bottom-12 left-1/2">
-          {valid.map((_, i) => (
+        {valid.length > 1 && (
+          <>
             <button
-              key={i}
-              onClick={() => setCurrent(i)}
-              aria-label={`Bild ${i + 1} von ${valid.length}`}
-              className="transition-all duration-300 rounded-full"
+              onClick={() => setCurrent(c => (c - 1 + valid.length) % valid.length)}
+              aria-label="Vorheriges Bild"
+              className="absolute flex items-center justify-center w-10 h-10 rounded-sm"
               style={{
-                width:      i === current ? '20px' : '6px',
-                height:     '6px',
-                background: i === current ? 'var(--color-cyan)' : 'rgba(255,255,255,0.4)',
+                left:      '12px',
+                top:       '50%',
+                transform: 'translateY(-50%)',
+                background: 'rgba(0,0,0,0.6)',
+                border:     '1px solid var(--glass-border)',
+                backdropFilter: 'blur(8px)',
               }}
-            />
-          ))}
-        </div>
-      )}
+            >
+              <FiChevronLeft size={18} color="var(--color-text-primary)" />
+            </button>
+            <button
+              onClick={() => setCurrent(c => (c + 1) % valid.length)}
+              aria-label="Nächstes Bild"
+              className="absolute flex items-center justify-center w-10 h-10 rounded-sm"
+              style={{
+                right:     '12px',
+                top:       '50%',
+                transform: 'translateY(-50%)',
+                background: 'rgba(0,0,0,0.6)',
+                border:     '1px solid var(--glass-border)',
+                backdropFilter: 'blur(8px)',
+              }}
+            >
+              <FiChevronRight size={18} color="var(--color-text-primary)" />
+            </button>
+          </>
+        )}
 
-      {/* Zähler */}
-      {valid.length > 1 && (
         <div
-          className="absolute px-2 py-1 text-xs rounded-sm top-4 right-4 font-body text-white/60"
-          style={{ background: 'rgba(0,0,0,0.5)', backdropFilter: 'blur(8px)' }}
+          style={{
+            position:      'absolute',
+            bottom:        0,
+            left:          0,
+            right:         0,
+            display:       'flex',
+            flexDirection: 'column',
+            alignItems:    'center',
+            gap:           '8px',
+            padding:       '40px 16px 12px',
+            background:    'linear-gradient(transparent, rgba(0,0,0,0.85))',
+            pointerEvents: 'none',
+          }}
         >
-          {current + 1} / {valid.length}
+          {valid[current].caption && (
+            <p className="text-sm font-medium font-body" style={{ color: 'rgba(255,255,255,0.9)', margin: 0 }}>
+              {valid[current].caption}
+            </p>
+          )}
+
+          {valid.length > 1 && isWide && (
+            <div
+              style={{
+                display:        'flex',
+                alignItems:     'center',
+                justifyContent: 'center',
+                gap:            '6px',
+                pointerEvents:  'auto',
+                height:         '6px',
+                lineHeight:     '0',
+              }}
+            >
+              {valid.map((_, i) => (
+                <span
+                  key={i}
+                  role="button"
+                  tabIndex={0}
+                  onClick={() => setCurrent(i)}
+                  onKeyDown={e => e.key === 'Enter' && setCurrent(i)}
+                  aria-label={`Bild ${i + 1} von ${valid.length}`}
+                  style={{
+                    display:       'inline-block',
+                    width:         i === current ? '18px' : '6px',
+                    height:        '6px',
+                    borderRadius:  '999px',
+                    background:    i === current ? 'var(--color-cyan)' : 'rgba(255,255,255,0.4)',
+                    cursor:        'pointer',
+                    flexShrink:    0,
+                    transition:    'width 0.3s ease, background 0.3s ease',
+                    verticalAlign: 'middle',
+                  }}
+                />
+              ))}
+            </div>
+          )}
         </div>
-      )}
-    </div>
+
+      </div>
+    </>
   )
 }
 
 // ── Vollbild-Modal ────────────────────────────────────────────
 
 function ProjectPanel({ project, onClose }) {
+  const isWide = useIsWide()
+
   return (
     <>
       <motion.div
@@ -378,23 +492,30 @@ function ProjectPanel({ project, onClose }) {
       <motion.div
         role="dialog"
         aria-label={`Projektdetails: ${project.title}`}
-        className="fixed z-50 grid grid-cols-1 overflow-hidden rounded-lg md:grid-cols-2"
+        className="fixed z-50 overflow-hidden rounded-lg"
         style={{
-          inset:      'clamp(0.5rem, 2vw, 3rem)',
-          background: 'var(--color-dark-2)',
-          border:     '1px solid var(--glass-border)',
-          boxShadow:  '0 25px 60px rgba(0,0,0,0.6)',
+          top:           'clamp(0.5rem, 2vw, 3rem)',
+          bottom:        'clamp(0.5rem, 2vw, 3rem)',
+          left:          'clamp(0.5rem, 2vw, 3rem)',
+          right:         'clamp(0.5rem, 2vw, 3rem)',
+          background:    'var(--color-dark-2)',
+          border:        '1px solid var(--glass-border)',
+          boxShadow:     '0 25px 60px rgba(0,0,0,0.6)',
+          display:       'flex',
+          flexDirection: isWide ? 'row' : 'column',
         }}
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
         exit={{ opacity: 0, scale: 0.95 }}
         transition={{ type: 'spring', damping: 30, stiffness: 300 }}
       >
-        {/* LINKS – Video oder Bilder */}
         <div
-          className="relative overflow-hidden"
           style={{
-            height:     'clamp(200px, 40vw, 100%)',
+            position:   'relative',
+            overflow:   'hidden',
+            flexShrink: 0,
+            width:      isWide ? '50%' : '100%',
+            height:     isWide ? '100%' : '50%',
             background: 'radial-gradient(ellipse at center, #1a1a3e 0%, #0d0d1f 50%, #0a0a0f 100%)',
           }}
         >
@@ -404,11 +525,25 @@ function ProjectPanel({ project, onClose }) {
           }
         </div>
 
-        {/* RECHTS – Infos */}
-        <div className="flex flex-col h-full overflow-y-auto">
+        <div
+          style={{
+            flex:          1,
+            display:       'flex',
+            flexDirection: 'column',
+            overflow:      'hidden',
+            minHeight:     0,
+            minWidth:      0,
+          }}
+        >
           <div
-            className="flex items-start justify-between flex-shrink-0 p-6"
-            style={{ borderBottom: '1px solid var(--glass-border)' }}
+            style={{
+              display:        'flex',
+              alignItems:     'flex-start',
+              justifyContent: 'space-between',
+              flexShrink:     0,
+              padding:        '1.5rem',
+              borderBottom:   '1px solid var(--glass-border)',
+            }}
           >
             <div>
               <p className="mb-1 text-xs tracking-widest uppercase font-body text-text-secondary">
@@ -421,14 +556,26 @@ function ProjectPanel({ project, onClose }) {
             <button
               onClick={onClose}
               aria-label="Modal schließen"
-              className="flex items-center justify-center flex-shrink-0 ml-4 transition-colors rounded-sm w-9 h-9 text-text-secondary hover:text-cyan"
-              style={{ border: '1px solid var(--glass-border)' }}
+              style={{
+                display:        'flex',
+                alignItems:     'center',
+                justifyContent: 'center',
+                flexShrink:     0,
+                marginLeft:     '1rem',
+                width:          '2.25rem',
+                height:         '2.25rem',
+                borderRadius:   '0.125rem',
+                border:         '1px solid var(--glass-border)',
+                background:     'transparent',
+                color:          'var(--color-text-secondary)',
+                cursor:         'pointer',
+              }}
             >
               <FiX size={18} />
             </button>
           </div>
 
-          <div className="flex flex-col flex-1 gap-6 p-6">
+          <div style={{ flex: 1, overflowY: 'auto', padding: '1.5rem', display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
             <p className="text-sm leading-relaxed font-body text-text-secondary whitespace-pre-line">
               {project.description}
             </p>
@@ -442,7 +589,7 @@ function ProjectPanel({ project, onClose }) {
                   {project.tech.map(t => (
                     <span
                       key={t}
-                      className="px-3 py-1.5 text-xs rounded-sm font-body"
+                      className="px-3 py-1 text-xs rounded-sm font-body"
                       style={{
                         background: 'rgba(0,212,255,0.08)',
                         border:     '1px solid rgba(0,212,255,0.25)',
@@ -456,13 +603,14 @@ function ProjectPanel({ project, onClose }) {
               </div>
             )}
 
-            <div className="flex flex-col items-start gap-3 mt-auto">
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: '0.75rem', marginTop: 'auto' }}>
               {project.github && (
                 <a
                   href={project.github}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center gap-2 px-5 py-3 text-sm font-medium transition-colors border rounded-md font-body border-cyan text-cyan hover:bg-cyan hover:text-dark"
+                  className="flex items-center gap-2 px-5 py-3 text-sm font-medium rounded-md font-body"
+                  style={{ border: '1px solid var(--color-cyan)', color: 'var(--color-cyan)' }}
                 >
                   <FiGithub size={16} />
                   GitHub ansehen
@@ -473,7 +621,7 @@ function ProjectPanel({ project, onClose }) {
                   href={project.live}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center gap-2 px-5 py-3 text-sm font-medium transition-opacity rounded-md font-body hover:opacity-80"
+                  className="flex items-center gap-2 px-5 py-3 text-sm font-medium rounded-md font-body"
                   style={{ background: 'var(--color-cyan)', color: 'var(--color-dark)' }}
                 >
                   <FiExternalLink size={16} />
@@ -485,8 +633,8 @@ function ProjectPanel({ project, onClose }) {
                   href={project.figma}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center gap-2 px-5 py-3 text-sm font-medium transition-colors border rounded-md font-body"
-                  style={{ borderColor: 'rgba(242,78,30,0.4)', color: '#F24E1E' }}
+                  className="flex items-center gap-2 px-5 py-3 text-sm font-medium rounded-md font-body"
+                  style={{ border: '1px solid rgba(242,78,30,0.4)', color: '#F24E1E' }}
                 >
                   <SiFigma size={16} />
                   Figma öffnen
@@ -495,6 +643,7 @@ function ProjectPanel({ project, onClose }) {
             </div>
           </div>
         </div>
+
       </motion.div>
     </>
   )
