@@ -1,7 +1,6 @@
 import { motion } from 'framer-motion'
 import { useState, useEffect } from 'react'
 import profileImg from '../assets/images/profile.webp'
-import Logo from '../assets/icons/yuliya-tweitmann.svg'
 import LogoLoop from './LogoLoop'
 import {
   SiHtml5, SiCss3, SiJavascript, SiReact,
@@ -9,7 +8,7 @@ import {
   SiAdobeillustrator, SiAdobeindesign,
 } from 'react-icons/si'
 
-const TITLES = ['Frontend Developerin', 'Mediengestalterin', 'Design & Code']
+const TITLES = ['Frontend Developerin', 'Mediengestalterin', 'In Ausbildung']
 
 export default function Hero() {
   const [titleIndex, setTitleIndex] = useState(0)
@@ -39,9 +38,9 @@ export default function Hero() {
 
   return (
     <section id="hero" className="relative flex items-center min-h-screen overflow-hidden">
-      <div className="relative z-10 w-full max-w-6xl px-6 py-24 mx-auto">
+      <div className="relative z-10 w-full max-w-6xl px-6 py-12 mx-auto lg:py-24">
 
-        <div className="flex flex-col-reverse items-center gap-12 lg:flex-row">
+        <div className="flex flex-col-reverse items-center gap-8 pt-16 lg:flex-row lg:pt-0 lg:gap-12">
 
           <div className="flex-1 text-left">
             <motion.p
@@ -59,7 +58,11 @@ export default function Hero() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.2 }}
             >
-              <img src={Logo} alt="Yuliya Tweitmann" className="w-auto h-16 md:h-20" />
+              <h1 className="font-bold leading-tight font-display text-text-primary"
+                style={{ fontSize: 'clamp(2.5rem, 6vw, 4.5rem)' }}
+              >
+                Yuliya <span className="text-text-primary">Tweitmann</span>
+              </h1>
             </motion.div>
 
             <motion.div
@@ -140,16 +143,16 @@ export default function Hero() {
           </p>
           <LogoLoop
             logos={[
-              { node: <SiHtml5 color="#E34F26" />,            title: 'HTML5' },
-              { node: <SiCss3 color="#1572B6" />,             title: 'CSS3' },
-              { node: <SiJavascript color="#F7DF1E" />,       title: 'JavaScript' },
-              { node: <SiReact color="#61DAFB" />,            title: 'React' },
-              { node: <SiTailwindcss color="#06B6D4" />,      title: 'Tailwind CSS' },
-              { node: <SiFigma color="#F24E1E" />,            title: 'Figma' },
-              { node: <SiAdobephotoshop color="#31A8FF" />,   title: 'Photoshop' },
-              { node: <SiAdobeillustrator color="#FF9A00" />, title: 'Illustrator' },
-              { node: <SiAdobeindesign color="#FF3366" />,    title: 'InDesign' },
-            ]}
+                { node: <span role="img" aria-label="HTML5"><SiHtml5 color="#E34F26" aria-hidden="true" /></span>,            title: 'HTML5' },
+                { node: <span role="img" aria-label="CSS3"><SiCss3 color="#1572B6" aria-hidden="true" /></span>,             title: 'CSS3' },
+                { node: <span role="img" aria-label="JavaScript"><SiJavascript color="#F7DF1E" aria-hidden="true" /></span>, title: 'JavaScript' },
+                { node: <span role="img" aria-label="React"><SiReact color="#61DAFB" aria-hidden="true" /></span>,           title: 'React' },
+                { node: <span role="img" aria-label="Tailwind CSS"><SiTailwindcss color="#06B6D4" aria-hidden="true" /></span>, title: 'Tailwind CSS' },
+                { node: <span role="img" aria-label="Figma"><SiFigma color="#F24E1E" aria-hidden="true" /></span>,           title: 'Figma' },
+                { node: <span role="img" aria-label="Adobe Photoshop"><SiAdobephotoshop color="#31A8FF" aria-hidden="true" /></span>,   title: 'Photoshop' },
+                { node: <span role="img" aria-label="Adobe Illustrator"><SiAdobeillustrator color="#FF9A00" aria-hidden="true" /></span>, title: 'Illustrator' },
+                { node: <span role="img" aria-label="Adobe InDesign"><SiAdobeindesign color="#FF3366" aria-hidden="true" /></span>,    title: 'InDesign' },
+                ]}
             speed={80}
             direction="left"
             logoHeight={32}

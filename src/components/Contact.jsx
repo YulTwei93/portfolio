@@ -2,6 +2,7 @@ import { useState, useRef } from 'react'
 import { motion } from 'framer-motion'
 import emailjs from '@emailjs/browser'
 import { FiMail, FiGithub, FiLinkedin, FiSend } from 'react-icons/fi'
+import LegalModal from './LegalModal'
 
 const EMAILJS_SERVICE_ID  = import.meta.env.VITE_EMAILJS_SERVICE_ID
 const EMAILJS_TEMPLATE_ID = import.meta.env.VITE_EMAILJS_TEMPLATE_ID
@@ -34,11 +35,13 @@ const inputStyle = {
 
 export default function Contact() {
   const formRef = useRef(null)
-  const [formData, setFormData] = useState({ name: '', email: '', message: '' })
+  const [formData, setFormData] = useState({ name: '', email: '', message: '', consent: false })
   const [status, setStatus]     = useState('idle')
+  const [legalModal, setLegalModal] = useState(null)
 
   const handleChange = (e) => {
-    setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }))
+    const { name, type, checked, value } = e.target
+    setFormData(prev => ({ ...prev, [name]: type === 'checkbox' ? checked : value }))
   }
 
   const handleSubmit = async (e) => {
@@ -47,7 +50,7 @@ export default function Contact() {
     try {
       await emailjs.sendForm(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, formRef.current, EMAILJS_PUBLIC_KEY)
       setStatus('success')
-      setFormData({ name: '', email: '', message: '' })
+      setFormData({ name: '', email: '', message: '', consent: false })
     } catch (err) {
       console.error(err)
       setStatus('error')
@@ -55,7 +58,14 @@ export default function Contact() {
   }
 
   return (
-    <section id="kontakt" className="relative py-24">
+    <>
+      <LegalModal
+        isOpen={legalModal !== null}
+        onClose={() => setLegalModal(null)}
+        type={legalModal}
+      />
+
+      <section id="kontakt" className="relative py-24" aria-labelledby="contact-heading">
       <div className="w-full max-w-6xl px-6 mx-auto">
 
         <motion.div
@@ -68,7 +78,7 @@ export default function Contact() {
           <p className="mb-2 text-xs tracking-widest uppercase text-text-secondary font-body">
             Schreib mir
           </p>
-          <h2 className="font-bold font-display text-text-primary">
+          <h2 id="contact-heading" className="font-bold font-display text-text-primary">
             Kontakt <span className="text-gradient">aufnehmen</span>
           </h2>
         </motion.div>
@@ -113,7 +123,7 @@ export default function Contact() {
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.2 }}
           >
-            <form ref={formRef} onSubmit={handleSubmit} className="flex flex-col gap-4" noValidate>
+            <form ref={formRef} onSubmit={handleSubmit} className="flex flex-col gap-4" noValidate aria-label="Kontaktformular">
 
               <div className="flex flex-col gap-2">
                 <label htmlFor="name" className="text-xs tracking-widest uppercase font-body text-text-secondary">
@@ -175,14 +185,48 @@ export default function Contact() {
                 />
               </div>
 
+              {/* Datenschutz-Einverständnis */}
+              <div className="flex items-start gap-3 py-2">
+                <input
+                  type="checkbox"
+                  id="consent"
+                  name="consent"
+                  checked={formData.consent}
+                  onChange={handleChange}
+                  required
+                  className="mt-1 flex-shrink-0 w-4 h-4 rounded-sm cursor-pointer accent-cyan"
+                  aria-required="true"
+                  aria-describedby="consent-text"
+                />
+                <label
+                  htmlFor="consent"
+                  id="consent-text"
+                  className="text-xs leading-relaxed cursor-pointer font-body"
+                  style={{ color: 'var(--color-text-secondary)' }}
+                >
+                  Ich habe die{' '}
+                  <button
+                    type="button"
+                    className="underline transition-colors font-body"
+                    style={{ color: 'var(--color-cyan)', background: 'none', border: 'none', padding: 0, cursor: 'pointer', fontSize: 'inherit' }}
+                    onClick={() => setLegalModal('datenschutz')}
+                  >
+                    Datenschutzerklärung
+                  </button>{' '}
+                  gelesen und bin damit einverstanden, dass meine Angaben zur Bearbeitung meiner Anfrage gespeichert und verwendet werden.
+                </label>
+              </div>
+
               <button
                 type="submit"
-                disabled={status === 'sending'}
+                disabled={status === 'sending' || !formData.consent}
+                aria-disabled={status === 'sending' || !formData.consent}
                 className="flex items-center justify-center gap-2 px-8 py-3 font-medium transition-opacity rounded-md font-body"
                 style={{
                   background: 'var(--color-cyan)',
                   color:      'var(--color-dark)',
-                  opacity:    status === 'sending' ? 0.7 : 1,
+                  opacity:    (status === 'sending' || !formData.consent) ? 0.5 : 1,
+                  cursor:     (status === 'sending' || !formData.consent) ? 'not-allowed' : 'pointer',
                 }}
               >
                 <FiSend size={14} />
@@ -206,5 +250,6 @@ export default function Contact() {
         </div>
       </div>
     </section>
+    </>
   )
 }

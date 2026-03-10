@@ -39,11 +39,11 @@ const MagicBento = () => {
       {cardData.map((card, index) => (
         <div key={card.label ?? 'intro'} className="magic-bento-card">
 
-          {/* Header */}
-          <div className="magic-bento-card__header">
+          {/* Header – bei erster Card ausgeblendet via CSS */}
+          <div className="magic-bento-card__header" aria-hidden={index === 0 ? 'true' : undefined}>
             <div className="magic-bento-card__label">{card.label}</div>
             {index > 0 && (
-              <div className="magic-bento-card__number">
+              <div className="magic-bento-card__number" aria-hidden="true">
                 {String(index).padStart(2, '0')}
               </div>
             )}

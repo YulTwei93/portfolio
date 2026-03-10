@@ -71,9 +71,13 @@ Importiert in: MagicBento.jsx
 
 /* Erste Card – Statement */
 .magic-bento-card:nth-child(1) {
-  min-height: 140px;
+  min-height: 100px;
   align-items: flex-start;
   justify-content: center;
+}
+
+.magic-bento-card:nth-child(1) .magic-bento-card__header {
+  display: none;
 }
 
 .magic-bento-card:nth-child(1) .magic-bento-card__content { width: 100%; }
@@ -81,7 +85,7 @@ Importiert in: MagicBento.jsx
 .magic-bento-card:nth-child(1) .magic-bento-card__description {
   font-size: clamp(1rem, 1.5vw, 1.15rem);
   line-height: 1.7;
-  color: var(--color-text-primary);
+  color: var(--color-text-secondary);
   width: 100%;
 }
 
@@ -96,7 +100,7 @@ Importiert in: MagicBento.jsx
 /* Label */
 .magic-bento-card__label {
   font-family: 'Syne', sans-serif;
-  font-size: 0.7rem;
+  font-size: 1rem;
   color: var(--color-cyan);
   letter-spacing: 0.05em;
   min-height: 1em;
@@ -133,6 +137,6 @@ Importiert in: MagicBento.jsx
   font-family: 'Inter', sans-serif;
   font-size: clamp(0.8rem, 1.2vw, 0.875rem);
   line-height: 1.7;
-  color: #a0a0bb;
+  color: var(--color-text-secondary);
   margin: 0;
 }

@@ -491,7 +491,8 @@ function ProjectPanel({ project, onClose }) {
 
       <motion.div
         role="dialog"
-        aria-label={`Projektdetails: ${project.title}`}
+        aria-modal="true"
+        aria-labelledby={`modal-title-${project.id}`}
         className="fixed z-50 overflow-hidden rounded-lg"
         style={{
           top:           'clamp(0.5rem, 2vw, 3rem)',
@@ -549,7 +550,7 @@ function ProjectPanel({ project, onClose }) {
               <p className="mb-1 text-xs tracking-widest uppercase font-body text-text-secondary">
                 {project.tech[0]}
               </p>
-              <h2 className="text-2xl font-bold font-display text-text-primary">
+              <h2 id={`modal-title-${project.id}`} className="text-2xl font-bold font-display text-text-primary">
                 {project.title}
               </h2>
             </div>
@@ -813,8 +814,8 @@ function CategoryRow({ category, onCardClick }) {
       <div
         ref={scrollRef}
         onScroll={checkScroll}
-        className="flex gap-4 pb-2 overflow-x-auto"
-        style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+        className="flex gap-4 pb-4 overflow-x-auto"
+        style={{ scrollbarWidth: 'none', msOverflowStyle: 'none', paddingTop: '8px' }}
       >
         {category.projects.map((project, i) => (
           <motion.div
@@ -838,7 +839,7 @@ export default function Projects() {
   const [selectedProject, setSelectedProject] = useState(null)
 
   return (
-    <section id="projekte" className="relative py-24">
+    <section id="projekte" className="relative py-24" aria-labelledby="projects-heading">
       <div className="w-full max-w-6xl px-6 mx-auto">
 
         <motion.div
@@ -851,7 +852,7 @@ export default function Projects() {
           <p className="mb-2 text-xs tracking-widest uppercase text-text-secondary font-body">
             Meine Arbeiten
           </p>
-          <h2 className="font-bold font-display text-text-primary">
+          <h2 id="projects-heading" className="font-bold font-display text-text-primary">
             Projekte <span className="text-gradient">&</span> Arbeiten
           </h2>
         </motion.div>

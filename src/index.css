@@ -74,7 +74,7 @@
   --color-cyan:           #00d4ff;
   --color-pink:           #ff006e;
   --color-text-primary:   #f0f0f5;
-  --color-text-secondary: #9090aa;
+  --color-text-secondary: #c8c8d8;
 
   --gradient-brand: linear-gradient(135deg, #00d4ff 0%, #ff006e 100%);
 
@@ -134,16 +134,7 @@
 }
 
 
-/* ── 5. TOUCH & HOVER MEDIA QUERIES ──────────────────────── */
-/*
-   @media (hover: hover) → Desktop mit Maus
-   @media (hover: none)  → Touch-Geräte (Mobile/Tablet)
 
-   Strategie:
-   - Hover-Effekte nur auf Desktop
-   - Auf Mobile: :active für kurzes visuelles Tap-Feedback
-   - Mindest Touch-Target: 44×44px (Apple/Google Richtlinie)
-*/
 
 /* ── Navbar Links ── */
 @media (hover: hover) {
@@ -210,127 +201,6 @@
 }
 
 
-/* ── 6. KOMPONENTEN – BENTO GRID ──────────────────────────── */
-
-.bento-section {
-  position: relative;
-  user-select: none;
-}
-
-.card-grid {
-  display: grid;
-  gap: 0.75rem;
-  width: 100%;
-  grid-template-columns: 1fr;
-}
-
-@media (min-width: 600px) {
-  .card-grid { grid-template-columns: repeat(2, 1fr); }
-}
-
-@media (min-width: 1024px) {
-  .card-grid {
-    grid-template-columns: repeat(4, 1fr);
-    grid-auto-rows: minmax(180px, auto);
-  }
-  .magic-bento-card:nth-child(1) { grid-column: span 4; }
-  .magic-bento-card:nth-child(2),
-  .magic-bento-card:nth-child(3) { grid-column: span 2; }
-  .magic-bento-card:nth-child(4) { grid-column: span 2; }
-  .magic-bento-card:nth-child(5),
-  .magic-bento-card:nth-child(6) { grid-column: span 1; }
-}
-
-.magic-bento-card {
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  position: relative;
-  min-height: 160px;
-  width: 100%;
-  padding: clamp(1rem, 2vw, 1.5rem);
-  border-radius: var(--radius-md);
-  overflow: hidden;
-  background: var(--glass-bg);
-  backdrop-filter: var(--glass-blur);
-  -webkit-backdrop-filter: var(--glass-blur);
-  border: 1px solid transparent;
-  background-clip: padding-box;
-  transition: transform 0.15s ease, border-color 0.15s ease;
-}
-
-.magic-bento-card::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  border-radius: var(--radius-md);
-  padding: 1px;
-  background: var(--glass-border);
-  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-  -webkit-mask-composite: xor;
-  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-  mask-composite: exclude;
-  pointer-events: none;
-}
-
-.magic-bento-card:nth-child(1) {
-  min-height: 140px;
-  align-items: flex-start;
-  justify-content: center;
-}
-.magic-bento-card:nth-child(1) .magic-bento-card__content { width: 100%; }
-.magic-bento-card:nth-child(1) .magic-bento-card__description {
-  font-size: clamp(1rem, 1.5vw, 1.15rem);
-  line-height: 1.7;
-  color: var(--color-text-primary);
-  width: 100%;
-}
-
-.magic-bento-card__header {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  margin-bottom: 1rem;
-}
-
-.magic-bento-card__label {
-  font-family: 'Syne', sans-serif;
-  font-size: 0.7rem;
-  color: var(--color-cyan);
-  letter-spacing: 0.05em;
-  min-height: 1em;
-}
-
-.magic-bento-card__number {
-  font-family: 'Syne', sans-serif;
-  font-size: 0.7rem;
-  color: rgba(255, 255, 255, 0.15);
-  font-weight: 700;
-  letter-spacing: 0.1em;
-}
-
-.magic-bento-card__content {
-  display: flex;
-  flex-direction: column;
-  gap: 0.4rem;
-}
-
-.magic-bento-card__title {
-  font-family: 'Syne', sans-serif;
-  font-weight: 600;
-  font-size: clamp(0.9rem, 1.5vw, 1rem);
-  color: var(--color-text-primary);
-  margin: 0 0 0.4rem 0;
-  line-height: 1.3;
-}
-
-.magic-bento-card__description {
-  font-family: 'Inter', sans-serif;
-  font-size: clamp(0.8rem, 1.2vw, 0.875rem);
-  line-height: 1.7;
-  color: #a0a0bb;
-  margin: 0;
-}
 
 
 /* ── 7. KOMPONENTEN – AURORA ──────────────────────────────── */

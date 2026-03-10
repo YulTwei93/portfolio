@@ -20,7 +20,7 @@ export default function Footer() {
         type={modal}
       />
 
-      <footer className="relative mt-0">
+      <footer className="relative mt-0" aria-label="Seitenfooter">
         <div style={{ borderTop: '1px solid rgba(255,255,255,0.06)' }} />
 
         <div className="w-full max-w-6xl px-6 py-12 mx-auto">
@@ -91,7 +91,7 @@ export default function Footer() {
                   onClick={() => setModal('datenschutz')}
                   className="p-0 text-sm text-left transition-colors bg-transparent border-none cursor-pointer font-body text-text-secondary hover:text-cyan w-fit"
                 >
-                  Datenschutz
+                  Datenschutzerklärung
                 </button>
               </div>
             </div>
