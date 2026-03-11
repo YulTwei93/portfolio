@@ -65,7 +65,7 @@ export default function Contact() {
         type={legalModal}
       />
 
-      <section id="kontakt" className="relative py-24" aria-labelledby="contact-heading">
+      <section id="kontakt" className="relative" style={{ paddingBlock: 'var(--section-py)' }} aria-labelledby="contact-heading">
       <div className="w-full max-w-6xl px-6 mx-auto">
 
         <motion.div
@@ -194,7 +194,7 @@ export default function Contact() {
                   checked={formData.consent}
                   onChange={handleChange}
                   required
-                  className="mt-1 flex-shrink-0 w-4 h-4 rounded-sm cursor-pointer accent-cyan"
+                  className="flex-shrink-0 w-4 h-4 mt-1 rounded-sm cursor-pointer accent-cyan"
                   aria-required="true"
                   aria-describedby="consent-text"
                 />

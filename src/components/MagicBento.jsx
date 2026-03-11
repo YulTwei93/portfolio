@@ -34,31 +34,54 @@ const cardData = [
 ]
 
 const MagicBento = () => {
+  const [, ...cards] = cardData
+
   return (
-    <div className="card-grid bento-section">
-      {cardData.map((card, index) => (
-        <div key={card.label ?? 'intro'} className="magic-bento-card">
+    <div className="bento-section">
 
-          {/* Header – bei erster Card ausgeblendet via CSS */}
-          <div className="magic-bento-card__header" aria-hidden={index === 0 ? 'true' : undefined}>
-            <div className="magic-bento-card__label">{card.label}</div>
-            {index > 0 && (
+      {/* Statement – außerhalb des Grids, mit pinken // */}
+      <div className="flex gap-3 mb-8">
+        <span
+          className="flex-shrink-0 font-bold leading-tight font-display"
+          style={{ color: 'var(--color-pink)', fontSize: 'clamp(1.1rem, 2vw, 1.4rem)' }}
+          aria-hidden="true"
+        >
+          //
+        </span>
+        <p
+          className="leading-relaxed font-body"
+          style={{ color: 'var(--color-text-secondary)', fontSize: 'clamp(1rem, 1.5vw, 1.15rem)' }}
+        >
+          Gutes Design endet für mich nicht beim Aussehen, sondern bei der Funktion.
+          Deshalb entwickle ich im Rahmen meiner Umschulung Fähigkeiten im Frontend
+          und lerne, Gestaltung technisch umzusetzen. Ich möchte verstehen, wie aus
+          Konzepten funktionierende Anwendungen werden, und daran mitarbeiten.
+        </p>
+      </div>
+
+      {/* Grid */}
+      <div className="card-grid">
+        {cards.map((card, index) => (
+          <div key={card.label} className="magic-bento-card">
+
+            <div className="magic-bento-card__header">
+              <div className="magic-bento-card__label">{card.label}</div>
               <div className="magic-bento-card__number" aria-hidden="true">
-                {String(index).padStart(2, '0')}
+                {String(index + 1).padStart(2, '0')}
               </div>
-            )}
-          </div>
+            </div>
 
-          {/* Inhalt */}
-          <div className="magic-bento-card__content">
-            {card.title && (
-              <h3 className="magic-bento-card__title">{card.title}</h3>
-            )}
-            <p className="magic-bento-card__description">{card.description}</p>
-          </div>
+            <div className="magic-bento-card__content">
+              {card.title && (
+                <h3 className="magic-bento-card__title">{card.title}</h3>
+              )}
+              <p className="magic-bento-card__description">{card.description}</p>
+            </div>
 
-        </div>
-      ))}
+          </div>
+        ))}
+      </div>
+
     </div>
   )
 }

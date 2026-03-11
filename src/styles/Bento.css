@@ -28,12 +28,16 @@ Importiert in: MagicBento.jsx
     grid-auto-rows: minmax(180px, auto);
   }
 
+  /* Umschulung – volle Breite */
   .magic-bento-card:nth-child(1) { grid-column: span 4; }
+
+  /* Persönliches + Skills – je 2 Spalten */
   .magic-bento-card:nth-child(2),
   .magic-bento-card:nth-child(3) { grid-column: span 2; }
-  .magic-bento-card:nth-child(4) { grid-column: span 2; }
-  .magic-bento-card:nth-child(5),
-  .magic-bento-card:nth-child(6) { grid-column: span 1; }
+
+  /* Sprachen + Berufserfahrung – je 2 Spalten */
+  .magic-bento-card:nth-child(4),
+  .magic-bento-card:nth-child(5) { grid-column: span 2; }
 }
 
 /* Card Basis */
@@ -69,26 +73,6 @@ Importiert in: MagicBento.jsx
   pointer-events: none;
 }
 
-/* Erste Card – Statement */
-.magic-bento-card:nth-child(1) {
-  min-height: 100px;
-  align-items: flex-start;
-  justify-content: center;
-}
-
-.magic-bento-card:nth-child(1) .magic-bento-card__header {
-  display: none;
-}
-
-.magic-bento-card:nth-child(1) .magic-bento-card__content { width: 100%; }
-
-.magic-bento-card:nth-child(1) .magic-bento-card__description {
-  font-size: clamp(1rem, 1.5vw, 1.15rem);
-  line-height: 1.7;
-  color: var(--color-text-secondary);
-  width: 100%;
-}
-
 /* Card Header */
 .magic-bento-card__header {
   display: flex;
@@ -109,7 +93,7 @@ Importiert in: MagicBento.jsx
 /* Nummer */
 .magic-bento-card__number {
   font-family: 'Syne', sans-serif;
-  font-size: 0.7rem;
+  font-size: 1rem;
   color: rgba(255, 255, 255, 0.15);
   font-weight: 700;
   letter-spacing: 0.1em;
@@ -126,7 +110,7 @@ Importiert in: MagicBento.jsx
 .magic-bento-card__title {
   font-family: 'Syne', sans-serif;
   font-weight: 600;
-  font-size: clamp(0.9rem, 1.5vw, 1rem);
+  font-size: clamp(1rem, 1.5vw, 1rem);
   color: var(--color-text-primary);
   margin: 0 0 0.4rem 0;
   line-height: 1.3;

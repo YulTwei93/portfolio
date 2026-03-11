@@ -3,7 +3,7 @@ import MagicBento from './MagicBento'
 
 export default function About() {
   return (
-    <section id="ueber-mich" className="relative py-24" aria-labelledby="about-heading">
+    <section id="ueber-mich" className="relative" style={{ paddingBlock: 'var(--section-py)' }} aria-labelledby="about-heading">
       <div className="w-full max-w-6xl px-6 mx-auto">
 
         <motion.div

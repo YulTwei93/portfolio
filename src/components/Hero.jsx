@@ -8,7 +8,7 @@ import {
   SiAdobeillustrator, SiAdobeindesign,
 } from 'react-icons/si'
 
-const TITLES = ['Frontend Developerin', 'Mediengestalterin', 'In Ausbildung']
+const TITLES = ['Frontend Entwicklerin', 'Mediengestalterin', 'In Ausbildung']
 
 export default function Hero() {
   const [titleIndex, setTitleIndex] = useState(0)
@@ -37,8 +37,8 @@ export default function Hero() {
   }, [displayed, deleting, titleIndex])
 
   return (
-    <section id="hero" className="relative flex items-center min-h-screen overflow-hidden">
-      <div className="relative z-10 w-full max-w-6xl px-6 py-12 mx-auto lg:py-24">
+    <section id="hero" className="relative flex items-center min-h-screen overflow-hidden" style={{ paddingBlock: 'var(--section-py)' }} aria-label="Einführung und Überblick über Yuliya Tweitmann">
+      <div className="relative z-10 w-full max-w-6xl px-6 mx-auto ">
 
         <div className="flex flex-col-reverse items-center gap-8 pt-16 lg:flex-row lg:pt-0 lg:gap-12">
 

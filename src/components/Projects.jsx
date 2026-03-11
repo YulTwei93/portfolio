@@ -65,7 +65,7 @@ const CATEGORIES = [
       {
         id: 'kiefernweg',
         title: 'Grundschule Kiefernweg',
-        description: `Prüfungssimulation. Planung, Gestaltung und Umsetzung einer responsiven Website für eine fiktive Grundschule. Entwickelt nach Mobile-First-Prinzip mit Fokus auf Barrierefreiheit (WCAG 2.1 AA), modernem Design und technischer Tiefe.
+        description: `Prüfungssimulation, Gestaltung und Umsetzung einer responsiven Website für eine fiktive Grundschule. Entwickelt nach Mobile-First-Prinzip mit Fokus auf Barrierefreiheit (WCAG 2.1 AA), modernem Design und technischer Tiefe.
 
 Die Website umfasst mehrere Sektionen: Startseite, Schulvorstellung, Elternverein mit QR-Code-Anmeldefunktion sowie eine interaktive SVG-Anfahrtskarte mit klickbaren Markern und dynamischen Popups.
 
@@ -85,12 +85,12 @@ Besondere Highlights: Touch-Slider, rotierender Circular-Text-Effekt und vollst�
       {
         id: 'urbanvelo',
         title: 'Urban Velo',
-        description: `Abschlussprüfungsprojekt (ZFA, Sommer 2022). Konzeption, Gestaltung und technische Umsetzung einer responsiven Multi-Page-Website für einen fiktiven Fahrrad-Fachbetrieb. Da es sich um eine reale Prüfungsarbeit handelt, wurden Firmenname, Texte, Bilder und Logo für die Veröffentlichung angepasst.
+        description: `Schulprojekt.Konzeption, Gestaltung und technische Umsetzung einer responsiven Multi-Page-Website für einen fiktiven Fahrrad-Fachbetrieb. Firmenname, Texte, Bilder und Logo sind frei erfunden.
 
-Entwickelt nach Mobile-First-Prinzip mit Fokus auf Progressive Enhancement: Die gesamte Website funktioniert vollständig ohne JavaScript. Das Hamburger-Menü, die CSS-Endlosschleifen-Slideshow und die Bildergalerie sind reine CSS-Lösungen. JavaScript wird ausschließlich als optionale Touch-Swipe-Erweiterung eingesetzt.
+Entwickelt nach Mobile-First-Prinzip mit Fokus auf Progressive Enhancement: Die gesamte Website funktioniert vollständig ohne JavaScript. Hamburger-Menü, CSS-Endlosschleifen-Slideshow und Bildergalerie sind reine CSS-Lösungen. JavaScript kommt ausschließlich als optionale Touch-Swipe-Erweiterung zum Einsatz.
 
-Jeder der vier Geschäftsbereiche erhält eine eigene Akzentfarbe für klare visuelle Orientierung. Alle Piktogramme wurden selbst in Adobe Illustrator im Outline-Stil erstellt. Lighthouse: 87 % Leistung · 96 % Barrierefreiheit · 100 % Best Practices · 100 % SEO.`,
-        tech: ['HTML', 'CSS', 'JavaScript'],
+Jeder der vier Geschäftsbereiche hat eine eigene Akzentfarbe für klare visuelle Orientierung. Alle Piktogramme wurden selbst in Adobe Illustrator im Outline-Stil gezeichnet. Lighthouse-Ergebnis: 87 % Leistung, 96 % Barrierefreiheit, 100 % Best Practices, 100 % SEO`,
+        tech: ['HTML', 'CSS', 'JavaScript', 'Illustrator'],
         github: 'https://github.com/YulTwei93/urban-velo',
         live: null,
         figma: null,
@@ -105,11 +105,11 @@ Jeder der vier Geschäftsbereiche erhält eine eigene Akzentfarbe für klare vis
       {
         id: 'botaniq',
         title: 'Botaniq',
-        description: `Abschlussprüfungsprojekt (ZFA, Sommer 2025). Konzeption, Gestaltung und technische Umsetzung einer Web-App für digitale Tablet-Infopoints eines fiktiven Gartencenters. Da es sich um eine reale Prüfungsarbeit handelt, wurden Firmenname, Texte, Bilder und Logo für die Veröffentlichung angepasst.
+        description: `Schulprojekt. Konzeption, Gestaltung und technische Umsetzung einer Web-App für digitale Tablet-Infopoints eines fiktiven Gartencenters. Firmenname, Texte, Bilder und Logo sind frei erfunden.
 
 Umgesetzt als Single-Page-Application für die fixe Auflösung 1366×1024 px (Tablet Landscape), bewusst ohne Scrolling, für intuitive Touch-Bedienung an stationären Infopoints. Das Glassmorphism-Design mit animierten Hintergrund-Blobs und halbtransparenten Elementen richtet sich an eine jüngere Zielgruppe.
 
-Herzstück ist ein interaktiver 4-Schritte-Gutscheingenerator: Motivauswahl, Empfängername, Betrag und Käuferdaten werden clientseitig verarbeitet und als personalisiertes PDF (DIN A6, via jsPDF + Canvas API) direkt im Browser generiert. Kein Server erforderlich.`,
+Herzstück ist ein interaktiver 4-Schritte-Gutscheingenerator: Motivauswahl, Empfängername, Betrag und Käuferdaten werden clientseitig verarbeitet und als personalisiertes PDF in DIN A6 direkt im Browser generiert, ohne Server.`,
         tech: ['HTML', 'CSS', 'JavaScript', 'jsPDF'],
         github: 'https://github.com/YulTwei93/botaniq',
         live: null,
@@ -302,7 +302,7 @@ function ZoomOverlay({ src, alt, onClose }) {
       <button
         onClick={onClose}
         aria-label="Zoom schließen"
-        className="absolute top-4 right-4 flex items-center justify-center w-10 h-10 rounded-sm"
+        className="absolute flex items-center justify-center w-10 h-10 rounded-sm top-4 right-4"
         style={{ background: 'rgba(255,255,255,0.1)', border: '1px solid rgba(255,255,255,0.2)', color: 'white' }}
       >
         <FiX size={18} />
@@ -359,7 +359,7 @@ function PanelGallery({ images, title }) {
         </AnimatePresence>
 
         <div
-          className="absolute top-3 left-3 px-2 py-1 text-xs rounded-sm font-body"
+          className="absolute px-2 py-1 text-xs rounded-sm top-3 left-3 font-body"
           style={{ background: 'rgba(0,0,0,0.55)', backdropFilter: 'blur(8px)', color: 'rgba(255,255,255,0.45)', pointerEvents: 'none' }}
         >
           Klicken zum Vergrößern
@@ -367,7 +367,7 @@ function PanelGallery({ images, title }) {
 
         {valid.length > 1 && (
           <div
-            className="absolute top-3 right-3 px-2 py-1 text-xs rounded-sm font-body"
+            className="absolute px-2 py-1 text-xs rounded-sm top-3 right-3 font-body"
             style={{ background: 'rgba(0,0,0,0.55)', backdropFilter: 'blur(8px)', color: 'rgba(255,255,255,0.6)' }}
           >
             {current + 1} / {valid.length}
@@ -577,7 +577,7 @@ function ProjectPanel({ project, onClose }) {
           </div>
 
           <div style={{ flex: 1, overflowY: 'auto', padding: '1.5rem', display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
-            <p className="text-sm leading-relaxed font-body text-text-secondary whitespace-pre-line">
+            <p className="text-sm leading-relaxed whitespace-pre-line font-body text-text-secondary">
               {project.description}
             </p>
 
@@ -673,7 +673,7 @@ function ProjectCard({ project, onClick }) {
       transition={{ duration: 0.12 }}
     >
       <div
-        className="flex-shrink-0 w-full overflow-hidden flex items-center justify-center"
+        className="flex items-center justify-center flex-shrink-0 w-full overflow-hidden"
         style={{
           height:     `${IMG_HEIGHT}px`,
           background: 'linear-gradient(135deg, #0a0a1a 0%, #1a1a3e 100%)',
@@ -839,7 +839,7 @@ export default function Projects() {
   const [selectedProject, setSelectedProject] = useState(null)
 
   return (
-    <section id="projekte" className="relative py-24" aria-labelledby="projects-heading">
+    <section id="projekte" className="relative" style={{ paddingBlock: 'var(--section-py)' }} aria-labelledby="projects-heading">
       <div className="w-full max-w-6xl px-6 mx-auto">
 
         <motion.div
